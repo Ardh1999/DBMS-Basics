@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DBMS for Beginners: The Smartphone Secret (High-Contrast Edition)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons CDN -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Smooth slide animations and crisp card rendering */
+    .slide-active {
+      display: flex !important;
+      animation: fadeInSlide 0.35s ease-out forwards;
+    }
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Subtle custom scrollbar for nested code/lists */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+  <!-- TOP HEADER -->
+  <header class="w-full bg-slate-950 border-b border-slate-800 px-4 sm:px-8 py-3.5 flex items-center justify-between sticky top-0 z-50 shadow-md">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+        <i class="ph-bold ph-database text-2xl"></i>
+      </div>
+      <div>
+        <h1 class="text-base sm:text-lg font-extrabold text-white tracking-tight flex items-center gap-2">
+          Computer Science: DBMS for Beginners
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/40">
+            Beginners Edition
+          </span>
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-300">How your phone stores, manages, and finds data instantly</p>
+      </div>
+    </div>
+
+    <!-- Navigation Header Stats & Tools -->
+    <div class="flex items-center gap-3">
+      <span id="slideIndicator" class="text-sm font-bold text-white bg-slate-800 px-3.5 py-1.5 rounded-xl border border-slate-700">
+        Slide 1 of 9
+      </span>
+      <button id="toggleScriptBtn" onclick="toggleSpeakerNotes()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm rounded-xl transition flex items-center gap-2 shadow">
+        <i class="ph-bold ph-microphone text-base"></i>
+        <span class="hidden sm:inline">Teacher Script</span>
+      </button>
+      <button onclick="toggleFullscreen()" class="p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl border border-slate-700 transition" title="Toggle Fullscreen">
+        <i class="ph-bold ph-arrows-out text-lg"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN SLIDES CONTAINER (Clean, Ultra-Legible, 16:9 friendly) -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 md:p-8 flex flex-col justify-center">
+
+    <!-- SLIDE 1: WELCOME, DATA VS INFORMATION & PREREQUISITES -->
+    <section id="slide-1" class="slide-pane slide-active hidden flex-col gap-5">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-sparkle text-lg"></i> Slide 1 • Introduction & Prerequisites
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- Main Message -->
+        <div class="lg:col-span-7 bg-white p-6 sm:p-7 rounded-3xl shadow-2xl border-2 border-slate-200 flex flex-col justify-between">
+          <div class="space-y-4">
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
+              Why Learn <span class="text-blue-600 underline decoration-blue-200">DBMS</span> as Beginners?
+            </h2>
+            <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+              We are surrounded by <strong>Data</strong> (raw facts like names, numbers, or selfies) all the time. When organized, data becomes useful <strong>Information</strong> that helps us make decisions.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                <div class="text-xs font-extrabold text-blue-700 uppercase">🏫 School Example</div>
+                <p class="text-xs sm:text-sm text-slate-700 mt-1">
+                  Tracking student names, roll numbers, grades, and library books without losing records.
+                </p>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                <div class="text-xs font-extrabold text-indigo-700 uppercase">📱 Smartphone Example</div>
+                <p class="text-xs sm:text-sm text-slate-700 mt-1">
+                  Managing 3,000 photos, 500 contacts, and WhatsApp chats so apps open in 0.1 seconds!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 p-4 rounded-2xl bg-blue-50 border-2 border-blue-200 flex items-center gap-3">
+            <i class="ph-fill ph-lightbulb text-3xl text-amber-500 shrink-0"></i>
+            <span class="text-xs sm:text-sm font-semibold text-blue-950">
+              Without a database, a school library wouldn't know which books exist or who borrowed them—and your phone would freeze!
+            </span>
+          </div>
+        </div>
+
+        <!-- Prerequisites Box -->
+        <div class="lg:col-span-5 bg-slate-800 p-6 sm:p-7 rounded-3xl shadow-2xl border-2 border-slate-700 text-white flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs sm:text-sm uppercase tracking-wider mb-2">
+              <i class="ph-bold ph-check-circle text-xl"></i> Zero Coding Prerequisites
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-4">What You Already Know:</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-700">
+                <i class="ph-fill ph-device-mobile text-2xl text-blue-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <h4 class="font-bold text-white text-sm sm:text-base">Using Mobile Apps</h4>
+                  <p class="text-xs sm:text-sm text-slate-300">Tapping icons, typing in search bars, and saving contacts.</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-700">
+                <i class="ph-fill ph-folder text-2xl text-amber-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <h4 class="font-bold text-white text-sm sm:text-base">Files & Folders</h4>
+                  <p class="text-xs sm:text-sm text-slate-300">Knowing photos are image files and songs are audio files.</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-700">
+                <i class="ph-fill ph-table text-2xl text-emerald-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <h4 class="font-bold text-white text-sm sm:text-base">Rows & Columns</h4>
+                  <p class="text-xs sm:text-sm text-slate-300">Reading a simple school timetable or attendance sheet.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-4 text-center text-xs text-slate-400 font-medium">
+            Ready to peek inside your smartphone's brain? Let's go!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: WHAT IS A DATABASE VS A DBMS -->
+    <section id="slide-2" class="slide-pane hidden flex-col gap-5">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-arrows-split text-lg"></i> Slide 2 • Core Definitions & History
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+          Database vs. DBMS: <span class="text-blue-400">The Interface & The Vault</span>
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-base mt-1">
+          A DBMS acts as a protective bridge (interface) between the raw Database and your user applications.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
+        <!-- Database Card -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl border-4 border-amber-400 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 bg-amber-100 text-amber-900 text-xs font-black uppercase rounded-full">Electronic Storage</span>
+              <i class="ph-fill ph-vault text-4xl text-amber-500"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-slate-900">1. Database (DB)</h3>
+            <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+              An <strong>organised collection of data</strong> stored electronically on a computer system, made up of tables where each table holds info on a specific topic.
+            </p>
+            <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200">
+              <div class="text-xs font-bold text-amber-900 uppercase">📱 Smartphone Example</div>
+              <div class="text-slate-800 text-xs sm:text-sm font-semibold mt-1">
+                Your phone's internal storage chip holding separate tables for Contacts, Call Logs, and Gallery Photos.
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200 text-xs sm:text-sm font-bold text-amber-800 flex items-center gap-2">
+            <i class="ph-bold ph-check"></i> Passive Container: Simply holds the structured data.
+          </div>
+        </div>
+
+        <!-- DBMS Card -->
+        <div class="bg-white p-6 rounded-3xl shadow-xl border-4 border-blue-600 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 bg-blue-100 text-blue-900 text-xs font-black uppercase rounded-full">Management Software</span>
+              <i class="ph-fill ph-gear-six text-4xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-slate-900">2. DBMS Software</h3>
+            <p class="text-slate-700 text-sm sm:text-base leading-relaxed">
+              Software that helps us <strong>store, retrieve, and manipulate</strong> data in a database. It protects data by restricting unauthorized access across multiple users.
+            </p>
+            <div class="p-3.5 rounded-2xl bg-blue-50 border border-blue-200">
+              <div class="text-xs font-bold text-blue-900 uppercase">📱 Smartphone Example</div>
+              <div class="text-slate-800 text-xs sm:text-sm font-semibold mt-1">
+                The <strong>SQLite Engine</strong> inside Android/iOS that fetches "Mom" when you type her name and blocks random apps from reading your messages!
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200 text-xs sm:text-sm font-bold text-blue-800 flex items-center gap-2">
+            <i class="ph-bold ph-check"></i> Active Guard & Manager: Interface between apps & data.
+          </div>
+        </div>
+      </div>
+
+      <!-- Textbook Did You Know Strip -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-sky-950/90 border border-sky-700/70 p-3.5 rounded-2xl flex items-center gap-3 text-sky-100">
+          <i class="ph-fill ph-clock-counter-clockwise text-2xl text-sky-400 shrink-0"></i>
+          <div class="text-xs sm:text-sm">
+            <strong class="text-sky-300">Did You Know?</strong> The very first DBMS was developed in the <strong>early 1960s by Charles Bachman</strong>.
+          </div>
+        </div>
+        <div class="bg-indigo-950/90 border border-indigo-700/70 p-3.5 rounded-2xl flex items-center gap-3 text-indigo-100">
+          <i class="ph-fill ph-speaker-hifi text-2xl text-indigo-400 shrink-0"></i>
+          <div class="text-xs sm:text-sm">
+            <strong class="text-indigo-300">Smart Home Gadgets:</strong> Devices like Alexa or smart lights also rely on databases to work!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: WHY DO WE NEED DBMS (ALL 10 TEXTBOOK BENEFITS + DUPLICATE SIMULATOR) -->
+    <section id="slide-3" class="slide-pane hidden flex-col gap-5">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-lightning text-lg"></i> Slide 3 • Importance & Benefits of DBMS
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+          Why Do We Need DBMS? <span class="text-amber-400">10 Key Superpowers</span>
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-base mt-1">
+          Test how your phone handles duplicate downloads on the left, and explore all 10 textbook reasons on the right!
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+        <!-- Interactive Duplicate Detection Simulator -->
+        <div class="lg:col-span-5 bg-white p-5 sm:p-6 rounded-3xl shadow-xl border-2 border-slate-200 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-3">
+              <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wide">Mobile Duplicate Detection</span>
+              <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded-full">Avoid Redundancy</span>
+            </div>
+
+            <div class="bg-slate-100 p-4 rounded-2xl border-2 border-slate-300 space-y-3">
+              <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0">
+                  <i class="ph-bold ph-file-arrow-down text-2xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm sm:text-base font-extrabold text-slate-900">File Already Exists in DBMS!</h4>
+                  <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                    <strong>"Science_Notes.pdf"</strong> is already saved on your phone. Choose an action:
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                <button onclick="simulateDuplicate('replace')" class="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-1.5">
+                  <i class="ph-bold ph-arrows-clockwise"></i> Replace Old File
+                </button>
+                <button onclick="simulateDuplicate('keepBoth')" class="px-3 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold rounded-xl transition flex items-center justify-center gap-1.5 shadow">
+                  <i class="ph-bold ph-copy"></i> Keep Both as "(1)"
+                </button>
+              </div>
+
+              <div id="duplicateResultBox" class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs sm:text-sm font-bold text-blue-900 hidden"></div>
+            </div>
+          </div>
+
+          <div class="mt-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900">
+            <strong>Data Redundancy:</strong> Storing the same data in multiple places wastes space and causes confusion. DBMS keeps one trustworthy source!
+          </div>
+        </div>
+
+        <!-- All 10 Textbook Benefits Grid -->
+        <div class="lg:col-span-7 bg-white p-5 sm:p-6 rounded-3xl shadow-xl border-2 border-slate-200 flex flex-col justify-between">
+          <div class="text-xs font-extrabold text-blue-700 uppercase tracking-wider mb-3">
+            Complete Checklist from Chapter 7 (Pages 80–81)
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm">
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">1. Handle Huge Data:</strong> Stores millions of photos, chats, and records effortlessly.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">2. Organisation:</strong> Keeps data in structured tables so it is easy to sort and find.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">3. Efficiency:</strong> Saves time and effort when searching or updating files.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">4. Accuracy:</strong> Reduces manual typing mistakes and improves data quality.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">5. Centralisation:</strong> Keeps all info in one place, preventing duplication & boosting speed.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">6. Data Integrity:</strong> Ensures data stays accurate, complete, and consistent start to finish.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">7. Security:</strong> Protects data with passwords, PINs, and fingerprint locks.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">8. Scalability:</strong> Grows smoothly from 10 contacts to 10 million users!
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">9. Avoid Redundancy:</strong> Eliminates duplicate copies using smart rules.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <strong class="text-slate-900">10. Collaboration:</strong> Multiple people can work together and track who edited what.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: INTERACTIVE LIVE DATA FETCH FLOW -->
+    <section id="slide-4" class="slide-pane hidden flex-col gap-5">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-git-fork text-lg"></i> Slide 4 • Live Architecture & Data Journey
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+            How Data Flows: <span class="text-blue-400">Mobile UI ➔ DBMS ➔ Screen</span>
+          </h2>
+          <p class="text-slate-300 text-xs sm:text-base mt-1">
+            See what happens inside your phone in milliseconds when you search for "Riya" in Contacts!
+          </p>
+        </div>
+        <button id="startFlowBtn" onclick="runDataFetchSimulation()" class="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-xl flex items-center gap-2 shrink-0 transition active:scale-95">
+          <i class="ph-bold ph-play text-xl"></i> Click to Trace Data Flow
+        </button>
+      </div>
+
+      <!-- Flow Pipeline Cards -->
+      <div class="bg-slate-800 p-5 sm:p-7 rounded-3xl border-2 border-slate-700 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-700 text-xs sm:text-sm font-mono">
+          <div class="flex items-center gap-2">
+            <span id="flowLedLight" class="w-3 h-3 rounded-full bg-slate-500"></span>
+            <span id="flowStatusLabel" class="text-slate-300 font-semibold">Status: Ready. Click the button above to start!</span>
+          </div>
+          <span id="flowTimer" class="px-3 py-1 bg-slate-900 text-emerald-400 rounded-lg border border-slate-700 font-bold">
+            0 ms
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div id="flow-card-1" class="bg-white p-5 rounded-2xl border-4 border-transparent transition-all space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm">1</span>
+              <i class="ph-bold ph-device-mobile text-2xl text-blue-600"></i>
+            </div>
+            <h4 class="font-extrabold text-slate-900 text-base">User Tap on Mobile UI</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              You type <strong>"Riya"</strong> into the search box of your phone's Contacts app.
+            </p>
+            <div class="p-2 bg-slate-100 rounded-xl font-mono text-[11px] text-blue-700 font-bold truncate">
+              Input: name = "Riya"
+            </div>
+          </div>
+
+          <div id="flow-card-2" class="bg-white p-5 rounded-2xl border-4 border-transparent transition-all space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm">2</span>
+              <i class="ph-bold ph-code text-2xl text-indigo-600"></i>
+            </div>
+            <h4 class="font-extrabold text-slate-900 text-base">DBMS & SQL Query</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              App sends a Structured Query Language command to the DBMS interface.
+            </p>
+            <div class="p-2 bg-slate-100 rounded-xl font-mono text-[11px] text-indigo-700 font-bold truncate">
+              SELECT * FROM Contacts
+            </div>
+          </div>
+
+          <div id="flow-card-3" class="bg-white p-5 rounded-2xl border-4 border-transparent transition-all space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-8 h-8 rounded-full bg-amber-500 text-white font-bold flex items-center justify-center text-sm">3</span>
+              <i class="ph-bold ph-hard-drive text-2xl text-amber-500"></i>
+            </div>
+            <h4 class="font-extrabold text-slate-900 text-base">Database Disk Lookup</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              DBMS verifies access permission, scans table indexes, and locates Riya's row.
+            </p>
+            <div class="p-2 bg-slate-100 rounded-xl font-mono text-[11px] text-amber-800 font-bold truncate">
+              Row Found: #C101 (Riya)
+            </div>
+          </div>
+
+          <div id="flow-card-4" class="bg-white p-5 rounded-2xl border-4 border-transparent transition-all space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm">4</span>
+              <i class="ph-bold ph-sparkle text-2xl text-emerald-600"></i>
+            </div>
+            <h4 class="font-extrabold text-slate-900 text-base">Rendered on Screen</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Raw table data becomes a sleek contact card with Call & Message buttons!
+            </p>
+            <div class="p-2 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-emerald-600 text-white text-[11px] font-bold flex items-center justify-center">R</div>
+              <div class="text-[11px] font-bold text-slate-800">Riya (+91 99671...)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 flex items-center gap-3 text-xs sm:text-sm text-slate-300">
+          <i class="ph-bold ph-clock text-2xl text-blue-400 shrink-0"></i>
+          <span><strong>Round-Trip Time:</strong> Just <strong>48 milliseconds</strong>! That is faster than a human eye blink (300 ms).</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: 6 COMPONENTS OF DBMS (MACHINE VS HUMAN SPLIT) -->
+    <section id="slide-5" class="slide-pane hidden flex-col gap-5">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-cubes text-lg"></i> Slide 5 • Core Architecture (Page 82–83)
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+          The 6 Components of a <span class="text-blue-400">DBMS</span>
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-base mt-1">
+          A DBMS bridges the <strong>Machine Side</strong> (Hardware & Software) with the <strong>Human Side</strong> (Procedures & People) using Data & Access Language!
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 1. Hardware -->
+        <div class="bg-white p-5 rounded-2xl shadow-lg border-2 border-amber-300 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-sm">1</span>
+              <h4 class="text-base sm:text-lg font-extrabold text-slate-900">Hardware</h4>
+            </div>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 bg-amber-100 text-amber-800 rounded">Machine</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Physical parts: Keyboard, mouse, touchscreen, CPU processor, and storage disks (Hard Disk / Flash memory).
+          </p>
+          <div class="text-xs font-bold text-amber-800 pt-1">📱 Phone: Processor, Screen & 128GB Flash Chip</div>
+        </div>
+
+        <!-- 2. Software -->
+        <div class="bg-white p-5 rounded-2xl shadow-lg border-2 border-amber-300 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-sm">2</span>
+              <h4 class="text-base sm:text-lg font-extrabold text-slate-900">Software</h4>
+            </div>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 bg-amber-100 text-amber-800 rounded">Machine</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Programs that understand database languages. Examples: <strong>MySQL, Oracle, SQL Server, MS Access, FileMaker, dBase, Clipper</strong> (and discontinued <em>FoxPro</em>).
+          </p>
+          <div class="text-xs font-bold text-amber-800 pt-1">📱 Phone: Android / iOS & SQLite Engine</div>
+        </div>
+
+        <!-- 3. Data & Metadata -->
+        <div class="bg-white p-5 rounded-2xl shadow-lg border-2 border-blue-400 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-sm">3</span>
+              <h4 class="text-base sm:text-lg font-extrabold text-slate-900">Data & Metadata</h4>
+            </div>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Core Bridge</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <strong>Data:</strong> Raw facts (your selfie).<br>
+            <strong>Metadata (Data about data):</strong> File size (3MB), name, date, and GPS location!
+          </p>
+          <div class="text-xs font-bold text-blue-800 pt-1">📱 Phone: Photo Pixels + "Taken Today at 5 PM"</div>
+        </div>
+
+        <!-- 4. Database Access Language -->
+        <div class="bg-white p-5 rounded-2xl shadow-lg border-2 border-blue-400 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-sm">4</span>
+              <h4 class="text-base sm:text-lg font-extrabold text-slate-900">Access Language</h4>
+            </div>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Core Bridge</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Language used to give commands to get, modify, or delete data. Most widely used: <strong>SQL</strong> (<em>Structured Query Language</em>).
+          </p>
+          <div class="text-xs font-bold text-blue-800 pt-1">📱 Phone: SQL commands running behind your taps</div>
+        </div>
+
+        <!-- 5. Procedures -->
+        <div class="bg-white p-5 rounded-2xl shadow-lg border-2 border-pink-300 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-pink-100 text-pink-800 flex items-center justify-center font-bold text-sm">5</span>
+              <h4 class="text-base sm:text-lg font-extrabold text-slate-900">Procedures</h4>
+            </div>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 bg-pink-100 text-pink-800 rounded">Human</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            General instructions & rules: How to set up, install, log in/out, manage, create backups, and generate reports.
+          </p>
+          <div class="text-xs font-bold text-pink-800 pt-1">📱 Phone: Nightly Cloud Backup & PIN Unlock Rules</div>
+        </div>
+
+        <!-- 6. People (Live-ware) -->
+        <div class="bg-white p-5 rounded-2xl shadow-lg border-2 border-pink-300 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-pink-100 text-pink-800 flex items-center justify-center font-bold text-sm">6</span>
+              <h4 class="text-base sm:text-lg font-extrabold text-slate-900">People ("Live-ware")</h4>
+            </div>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 bg-pink-100 text-pink-800 rounded">Human</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            The most crucial part! Comprises <strong>Database Administrators (DBAs)</strong>, <strong>Software Developers</strong>, and <strong>End-Users</strong>.
+          </p>
+          <div class="text-xs font-bold text-pink-800 pt-1">📱 Phone: You (End-User) & App Developers</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: 4 TYPES OF DBMS (WITH TEXTBOOK DIAGRAMS & EXAMPLES) -->
+    <section id="slide-6" class="slide-pane hidden flex-col gap-5">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-tree-structure text-lg"></i> Slide 6 • The 4 Main Types of DBMS (Pages 83–85)
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+          The 4 Types of <span class="text-blue-400">DBMS</span>
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-base mt-1">
+          Each database model organizes data differently depending on the app's needs:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 1. Hierarchical -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-xl border-2 border-slate-200 flex flex-col justify-between space-y-3">
+          <div>
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 font-black text-xs rounded-md">1960s • Tree Model</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1.5">1. Hierarchical</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Like an <strong>upside-down tree</strong>: 1 Parent has 0 or more Children. Top is <strong>Root</strong>, endpoints holding actual data are <strong>Leaves</strong>. Easy to add/remove, hard to search deep items. Used in <em>Windows Registry & XML</em>.
+            </p>
+            <div class="mt-2.5 p-2.5 bg-slate-100 rounded-xl text-[11px] font-mono text-slate-800 space-y-0.5">
+              <div>🌳 Root (Phone Storage)</div>
+              <div class="pl-3">├── 📁 Child 1 (Photos)</div>
+              <div class="pl-6">└── 🍃 Grandchild 1 (Trip.jpg)</div>
+              <div class="pl-3">└── 📁 Child 2 (Music)</div>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-200 text-xs font-bold text-emerald-800">
+            📱 Mobile: File Manager Folder Tree
+          </div>
+        </div>
+
+        <!-- 2. Relational (RDBMS) -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-xl border-2 border-blue-400 flex flex-col justify-between space-y-3">
+          <div>
+            <span class="px-2.5 py-0.5 bg-blue-100 text-blue-800 font-black text-xs rounded-md">Most Common!</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1.5">2. Relational (RDBMS)</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Stores data in <strong>tables (called relations)</strong> with rows & columns, linked together via relationships. Uses <strong>SQL</strong>. Examples: <em>MySQL, MS SQL Server, Oracle</em>.
+            </p>
+            <div class="mt-2.5 p-2 bg-slate-100 rounded-xl text-[11px] overflow-x-auto">
+              <table class="w-full text-slate-800 text-left font-sans">
+                <tr class="border-b border-slate-300 font-bold text-blue-900">
+                  <th>student_id</th><th>name</th><th>grade</th>
+                </tr>
+                <tr><td>S101</td><td>Aman</td><td>7</td></tr>
+                <tr><td>S102</td><td>Ramya</td><td>7</td></tr>
+                <tr><td>S103</td><td>Raj</td><td>7</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-200 text-xs font-bold text-blue-800">
+            📱 Mobile: Contacts + Call Logs (Next Slide!)
+          </div>
+        </div>
+
+        <!-- 3. NoSQL -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-xl border-2 border-slate-200 flex flex-col justify-between space-y-3">
+          <div>
+            <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 font-black text-xs rounded-md">Not Only SQL</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1.5">3. NoSQL DBMS</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Flexible storage (Key-Value, Document, Column-family, Graph) where each key can have <strong>different columns</strong>! Great for Big Data. Examples: <em>MongoDB, Cassandra, DynamoDB, Redis</em>.
+            </p>
+            <div class="mt-2.5 p-2.5 bg-slate-100 rounded-xl text-[11px] font-mono text-amber-950 space-y-1">
+              <div><strong>Riya:</strong> {email, gender, age}</div>
+              <div><strong>Arya:</strong> {email, gender}</div>
+              <div><strong>Rakesh:</strong> {email, country, hair}</div>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-200 text-xs font-bold text-amber-800">
+            📱 Mobile: Instagram Feeds & WhatsApp Media
+          </div>
+        </div>
+
+        <!-- 4. Object-Oriented -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-xl border-2 border-slate-200 flex flex-col justify-between space-y-3">
+          <div>
+            <span class="px-2.5 py-0.5 bg-pink-100 text-pink-800 font-black text-xs rounded-md">Objects & Classes</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1.5">4. Object-Oriented</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Stores data as <strong>Objects</strong> (boxes holding attributes & relationships). Many similar objects form a <strong>Class</strong>. Used in telecom, engineering & social media.
+            </p>
+            <div class="mt-2.5 p-2.5 bg-slate-100 rounded-xl text-[11px] font-mono text-pink-950 leading-snug">
+              <strong>Sahil : Employee</strong><br>
+              • <em>works</em> ➔ Technical Dept<br>
+              • <em>lives</em> ➔ Delhi<br>
+              • <em>has</em> ➔ 9967188451
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-200 text-xs font-bold text-pink-800">
+            📱 Mobile: 3D Games & Telecom Networks
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: DEEP DIVE — WHY WE SPLIT TABLES & HOW PRIMARY / FOREIGN KEYS WORK -->
+    <section id="slide-7" class="slide-pane hidden flex-col gap-4">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-key text-lg"></i> Slide 7 • Relational DBMS Deep Dive (2 Tables, PK & FK)
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Why Split Into <span class="text-blue-400">2 Linked Tables?</span> (Primary & Foreign Keys)
+          </h2>
+          <p class="text-slate-300 text-xs sm:text-sm mt-0.5">
+            Look at what happens in your phone's <strong>Call History</strong> when Rahul calls you 3 times!
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+        <!-- LEFT: THE PROBLEM WITH 1 SINGLE TABLE -->
+        <div class="lg:col-span-4 bg-white p-4 sm:p-5 rounded-3xl shadow-xl border-4 border-rose-400 flex flex-col justify-between space-y-3">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 bg-rose-100 text-rose-800 font-black text-xs rounded-full uppercase">❌ The Bad Way</span>
+              <i class="ph-fill ph-warning-circle text-2xl text-rose-500"></i>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900">1 Giant Single Table</h3>
+            <p class="text-xs text-slate-600 mt-1">
+              If we store everything in one single table, Rahul's phone number, city, and photo get copied <strong>every single time</strong> he calls!
+            </p>
+
+            <!-- Messy Single Table Visual -->
+            <div class="mt-3 overflow-x-auto rounded-xl border border-rose-200 bg-rose-50/50 p-2">
+              <table class="w-full text-[11px] text-left font-sans">
+                <thead class="text-rose-900 border-b border-rose-200">
+                  <tr>
+                    <th class="py-1">Time</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                  </tr>
+                </thead>
+                <tbody class="text-slate-800">
+                  <tr class="border-b border-rose-100">
+                    <td class="py-1 font-bold">10:00 AM</td>
+                    <td class="bg-rose-200/70 font-bold">Rahul</td>
+                    <td class="bg-rose-200/70">98110...</td>
+                    <td class="bg-rose-200/70">Delhi</td>
+                  </tr>
+                  <tr class="border-b border-rose-100">
+                    <td class="py-1 font-bold">11:15 AM</td>
+                    <td class="bg-rose-200/70 font-bold">Rahul</td>
+                    <td class="bg-rose-200/70">98110...</td>
+                    <td class="bg-rose-200/70">Delhi</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 font-bold">04:30 PM</td>
+                    <td class="bg-rose-200/70 font-bold">Rahul</td>
+                    <td class="bg-rose-200/70">98110...</td>
+                    <td class="bg-rose-200/70">Delhi</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 pt-2 border-t border-slate-200 text-xs">
+            <div class="flex items-start gap-1.5 text-rose-800 font-semibold">
+              <i class="ph-bold ph-x-circle text-base shrink-0 mt-0.5"></i>
+              <span><strong>Massive Redundancy:</strong> Repeats identical data 1,000 times, wasting phone storage!</span>
+            </div>
+            <div class="flex items-start gap-1.5 text-rose-800 font-semibold">
+              <i class="ph-bold ph-x-circle text-base shrink-0 mt-0.5"></i>
+              <span><strong>Update Problem:</strong> If Rahul moves to Mumbai, you must edit hundreds of rows!</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: THE RDBMS SOLUTION (2 TABLES + INTERACTIVE PK/FK LINK) -->
+        <div class="lg:col-span-8 bg-white p-4 sm:p-5 rounded-3xl shadow-xl border-4 border-blue-600 flex flex-col justify-between space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 font-black text-xs rounded-full uppercase">✅ The Smart RDBMS Way</span>
+              <h3 class="text-lg font-extrabold text-slate-900 mt-1">Split Into 2 Tables & Link With Keys!</h3>
+            </div>
+            <div class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200">
+              👆 Click any Call Log row below to trace PK & FK!
+            </div>
+          </div>
+
+          <!-- Two Tables Side-by-Side -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+            <!-- TABLE 1: CONTACTS (PRIMARY KEY) -->
+            <div class="p-3 rounded-2xl bg-slate-50 border-2 border-amber-400 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold text-slate-900">Table 1: Contacts</span>
+                <span class="px-2 py-0.5 bg-amber-100 text-amber-900 text-[10px] font-black rounded flex items-center gap-1">
+                  <i class="ph-fill ph-key"></i> PK = contact_id
+                </span>
+              </div>
+              <p class="text-[11px] text-slate-600">
+                <strong>Primary Key (PK):</strong> A unique ID for every person. Never repeats!
+              </p>
+              <table class="w-full text-xs text-left bg-white rounded-xl overflow-hidden border border-slate-200">
+                <thead class="bg-amber-100 text-amber-950 font-bold">
+                  <tr>
+                    <th class="p-1.5">contact_id (PK)</th>
+                    <th class="p-1.5">Name</th>
+                    <th class="p-1.5">Phone</th>
+                    <th class="p-1.5">City</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr id="pk-row-C101" class="transition-colors">
+                    <td class="p-1.5 font-mono font-extrabold text-amber-700">🔑 C101</td>
+                    <td class="p-1.5 font-bold">Rahul</td>
+                    <td class="p-1.5">98110...</td>
+                    <td class="p-1.5">Delhi</td>
+                  </tr>
+                  <tr id="pk-row-C102" class="transition-colors">
+                    <td class="p-1.5 font-mono font-extrabold text-amber-700">🔑 C102</td>
+                    <td class="p-1.5 font-bold">Riya</td>
+                    <td class="p-1.5">99671...</td>
+                    <td class="p-1.5">Mumbai</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- TABLE 2: CALL LOGS (FOREIGN KEY) -->
+            <div class="p-3 rounded-2xl bg-slate-50 border-2 border-indigo-400 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold text-slate-900">Table 2: Call_Logs</span>
+                <span class="px-2 py-0.5 bg-indigo-100 text-indigo-900 text-[10px] font-black rounded flex items-center gap-1">
+                  <i class="ph-bold ph-link"></i> FK = contact_id
+                </span>
+              </div>
+              <p class="text-[11px] text-slate-600">
+                <strong>Foreign Key (FK):</strong> Stores only the short ID pointing back to Table 1!
+              </p>
+              <table class="w-full text-xs text-left bg-white rounded-xl overflow-hidden border border-slate-200">
+                <thead class="bg-indigo-100 text-indigo-950 font-bold">
+                  <tr>
+                    <th class="p-1.5">Call_ID</th>
+                    <th class="p-1.5">contact_id (FK)</th>
+                    <th class="p-1.5">Time</th>
+                    <th class="p-1.5">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr id="fk-row-1" onclick="traceRelationalJoin(1, 'C101', 'Rahul', '98110-44210', 'Delhi', '10:00 AM (5m)')" class="cursor-pointer hover:bg-indigo-50 transition-colors">
+                    <td class="p-1.5 font-mono">#1</td>
+                    <td class="p-1.5 font-mono font-extrabold text-indigo-700">🔗 C101</td>
+                    <td class="p-1.5">10:00 AM</td>
+                    <td class="p-1.5"><span class="px-2 py-0.5 bg-blue-600 text-white rounded text-[10px] font-bold">Search</span></td>
+                  </tr>
+                  <tr id="fk-row-2" onclick="traceRelationalJoin(2, 'C102', 'Riya', '99671-88451', 'Mumbai', '11:15 AM (2m)')" class="cursor-pointer hover:bg-indigo-50 transition-colors">
+                    <td class="p-1.5 font-mono">#2</td>
+                    <td class="p-1.5 font-mono font-extrabold text-indigo-700">🔗 C102</td>
+                    <td class="p-1.5">11:15 AM</td>
+                    <td class="p-1.5"><span class="px-2 py-0.5 bg-blue-600 text-white rounded text-[10px] font-bold">Search</span></td>
+                  </tr>
+                  <tr id="fk-row-3" onclick="traceRelationalJoin(3, 'C101', 'Rahul', '98110-44210', 'Delhi', '04:30 PM (8m)')" class="cursor-pointer hover:bg-indigo-50 transition-colors">
+                    <td class="p-1.5 font-mono">#3</td>
+                    <td class="p-1.5 font-mono font-extrabold text-indigo-700">🔗 C101</td>
+                    <td class="p-1.5">04:30 PM</td>
+                    <td class="p-1.5"><span class="px-2 py-0.5 bg-blue-600 text-white rounded text-[10px] font-bold">Search</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- LIVE JOIN OUTPUT BAR (WHAT APPEARS ON MOBILE SCREEN) -->
+          <div id="relationalJoinResult" class="p-3.5 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-2 border-blue-500">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-extrabold text-base shrink-0" id="joinAvatar">
+                R
+              </div>
+              <div>
+                <div class="text-[11px] font-mono text-blue-300" id="joinSqlTrace">
+                  JOIN Trace: Call_Logs.contact_id (FK: C101) ➔ Contacts.contact_id (PK: C101)
+                </div>
+                <div class="text-sm sm:text-base font-extrabold text-white" id="joinUiOutput">
+                  📱 Mobile Call Screen: Rahul • 98110-44210 (Delhi) • 10:00 AM (5m)
+                </div>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 rounded-xl text-xs font-bold shrink-0">
+              Zero Duplication!
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: 4 CORE OBJECTS OF A DATABASE -->
+    <section id="slide-8" class="slide-pane hidden flex-col gap-5">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-stack text-lg"></i> Slide 8 • Objects of a Database (Page 81)
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+          The 4 Objects of a <span class="text-blue-400">Database</span>
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-base mt-1">
+          The building blocks used to store, enter, search, and present data efficiently:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 1. Tables -->
+        <div class="bg-white p-5 rounded-2xl shadow-xl border-2 border-slate-200 flex flex-col justify-between space-y-3">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl">
+              <i class="ph-bold ph-table"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900">1. Tables</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              The <strong>basic building blocks</strong>. A collection of <strong>rows</strong> (each row = a single record) and <strong>columns</strong> (each column = a piece of data/attribute).
+            </p>
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 font-medium">
+              📱 <strong>Mobile Analogy:</strong> The Contacts table holding 500 rows (friends) and columns (Name, Number, Email).
+            </div>
+          </div>
+          <span class="text-xs font-black text-emerald-700 uppercase tracking-wider">Storage Foundation</span>
+        </div>
+
+        <!-- 2. Forms -->
+        <div class="bg-white p-5 rounded-2xl shadow-xl border-2 border-slate-200 flex flex-col justify-between space-y-3">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl">
+              <i class="ph-bold ph-textbox"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900">2. Forms</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <strong>User-friendly interfaces</strong> used to enter, edit, or get data. Used to create new records, update existing ones, or delete records easily.
+            </p>
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 font-medium">
+              📱 <strong>Mobile Analogy:</strong> The "Create New Contact" screen with clean text boxes and a Save button.
+            </div>
+          </div>
+          <span class="text-xs font-black text-blue-700 uppercase tracking-wider">Friendly Input Screen</span>
+        </div>
+
+        <!-- 3. Queries -->
+        <div class="bg-white p-5 rounded-2xl shadow-xl border-2 border-slate-200 flex flex-col justify-between space-y-3">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl">
+              <i class="ph-bold ph-magnifying-glass"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900">3. Queries</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              A <strong>request for data</strong>. Used to retrieve, store, update, or delete data, generate reports, perform data analysis, and <strong>find & fix data errors</strong>.
+            </p>
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950 font-medium">
+              📱 <strong>Mobile Analogy:</strong> Searching "Mom" or filtering "Photos taken in Hyderabad".
+            </div>
+          </div>
+          <span class="text-xs font-black text-amber-800 uppercase tracking-wider">Smart Data Request</span>
+        </div>
+
+        <!-- 4. Reports -->
+        <div class="bg-white p-5 rounded-2xl shadow-xl border-2 border-slate-200 flex flex-col justify-between space-y-3">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl">
+              <i class="ph-bold ph-printer"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900">4. Reports</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Displays database data in a <strong>formatted and organised way</strong>. Used to generate invoices, statements, mailing lists, and printable summaries.
+            </p>
+            <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-xs text-purple-950 font-medium">
+              📱 <strong>Mobile Analogy:</strong> Your weekly Digital Wellbeing Screen-Time chart or PDF phone bill.
+            </div>
+          </div>
+          <span class="text-xs font-black text-purple-700 uppercase tracking-wider">Formatted Summary</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: QUICK RECAP & TEXTBOOK QUIZ ("DO IT YOURSELF 7A") -->
+    <section id="slide-9" class="slide-pane hidden flex-col gap-5">
+      <div class="inline-flex items-center gap-2 text-blue-400 font-extrabold text-xs sm:text-sm uppercase tracking-wider">
+        <i class="ph-bold ph-trophy text-lg"></i> Slide 9 • Master Recap & Textbook Quiz (Page 85)
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white">
+          Do It Yourself: <span class="text-amber-400">Test Your DBMS Knowledge!</span>
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-base mt-1">
+          Answer all 5 True/False questions from your textbook exercise below!
+        </p>
+      </div>
+
+      <div class="bg-white p-5 sm:p-7 rounded-3xl shadow-2xl border-2 border-slate-200">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-3">
+          <span class="text-sm font-extrabold text-slate-700">True or False Challenge (5 Questions)</span>
+          <span id="quizScoreLabel" class="px-3 py-1 bg-blue-100 text-blue-900 font-bold rounded-lg text-xs sm:text-sm">
+            Score: 0 / 5
+          </span>
+        </div>
+
+        <div class="space-y-2.5">
+          <!-- Question 1 (a) -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-xs sm:text-sm font-semibold text-slate-900">
+              a) A table stores data in rows and columns.
+            </span>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="answerQuiz(1, true, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-blue-600 hover:text-white font-bold text-xs rounded-xl transition">True</button>
+              <button onclick="answerQuiz(1, false, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-rose-600 hover:text-white font-bold text-xs rounded-xl transition">False</button>
+              <span id="feedback-1" class="text-xs font-bold ml-1"></span>
+            </div>
+          </div>
+
+          <!-- Question 2 (b) -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-xs sm:text-sm font-semibold text-slate-900">
+              b) Databases cannot reduce data redundancy.
+            </span>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="answerQuiz(2, false, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-rose-600 hover:text-white font-bold text-xs rounded-xl transition">True</button>
+              <button onclick="answerQuiz(2, true, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-blue-600 hover:text-white font-bold text-xs rounded-xl transition">False</button>
+              <span id="feedback-2" class="text-xs font-bold ml-1"></span>
+            </div>
+          </div>
+
+          <!-- Question 3 (c) -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-xs sm:text-sm font-semibold text-slate-900">
+              c) A query is used to generate reports, perform data analysis, and find data errors.
+            </span>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="answerQuiz(3, true, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-blue-600 hover:text-white font-bold text-xs rounded-xl transition">True</button>
+              <button onclick="answerQuiz(3, false, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-rose-600 hover:text-white font-bold text-xs rounded-xl transition">False</button>
+              <span id="feedback-3" class="text-xs font-bold ml-1"></span>
+            </div>
+          </div>
+
+          <!-- Question 4 (d) -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-xs sm:text-sm font-semibold text-slate-900">
+              d) Hierarchical databases are ideal for finding specific pieces of data easily.
+            </span>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="answerQuiz(4, false, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-rose-600 hover:text-white font-bold text-xs rounded-xl transition">True</button>
+              <button onclick="answerQuiz(4, true, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-blue-600 hover:text-white font-bold text-xs rounded-xl transition">False</button>
+              <span id="feedback-4" class="text-xs font-bold ml-1"></span>
+            </div>
+          </div>
+
+          <!-- Question 5 (e) -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-xs sm:text-sm font-semibold text-slate-900">
+              e) People who control and manage databases are referred to as "live-ware".
+            </span>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="answerQuiz(5, true, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-blue-600 hover:text-white font-bold text-xs rounded-xl transition">True</button>
+              <button onclick="answerQuiz(5, false, this)" class="px-3.5 py-1.5 bg-slate-200 hover:bg-rose-600 hover:text-white font-bold text-xs rounded-xl transition">False</button>
+              <span id="feedback-5" class="text-xs font-bold ml-1"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-200 text-center text-xs sm:text-sm font-bold text-slate-600">
+          🏆 Great job! You now understand Databases, DBMS, Primary/Foreign Keys, and all 4 DBMS Architectures!
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- TEACHER / VIDEO SCRIPT DRAWER (Collapsible at bottom) -->
+  <aside id="teacherScriptBox" class="bg-slate-950 border-t border-slate-800 p-4 transition-all">
+    <div class="max-w-6xl mx-auto flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-blue-400 font-extrabold text-xs uppercase tracking-wider">
+          <i class="ph-bold ph-microphone text-base"></i> Video Voiceover Script for this Slide
+        </div>
+        <span class="text-xs text-slate-400">Read this directly during video recording</span>
+      </div>
+      <p id="speakerScriptText" class="text-sm sm:text-base text-slate-200 font-medium leading-relaxed bg-slate-900 p-3.5 rounded-2xl border border-slate-800">
+        <!-- Injected via JavaScript -->
+      </p>
+    </div>
+  </aside>
+
+  <!-- BOTTOM SLIDE CONTROLS -->
+  <footer class="w-full bg-slate-950 border-t border-slate-800 px-4 sm:px-8 py-3.5 flex items-center justify-between sticky bottom-0 z-40">
+    <!-- Clickable Dots -->
+    <div class="flex items-center gap-2" id="dotsContainer">
+      <!-- 9 dots will be updated via JS -->
+    </div>
+
+    <!-- Prev & Next Navigation Buttons -->
+    <div class="flex items-center gap-3">
+      <button id="prevBtn" onclick="prevSlide()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm transition flex items-center gap-1.5 border border-slate-700 disabled:opacity-40 disabled:cursor-not-allowed">
+        <i class="ph-bold ph-caret-left"></i> Previous
+      </button>
+
+      <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm transition flex items-center gap-1.5 shadow-lg shadow-blue-600/30">
+        Next <i class="ph-bold ph-caret-right"></i>
+      </button>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 9;
+    let quizScore = 0;
+    const answeredMap = {};
+
+    // Voiceover scripts corresponding to each of the 9 slides
+    const scripts = {
+      1: "Hey everyone! Welcome to Computer Science for Beginners. Every day we deal with raw facts called Data, which become useful Information when organized—just like your school keeping student records or your smartphone organizing thousands of photos and contacts. You don't need any coding background to learn DBMS—just everyday curiosity about how your phone works!",
+      2: "Let's clear up the biggest confusion: A Database is an organized electronic collection of tables holding your data. A DBMS is the active software—invented back in the 1960s by Charles Bachman—that acts as a protective bridge between your apps and that database, letting you store, retrieve, and safeguard data even in smart home gadgets!",
+      3: "Why do we need a DBMS? Look at all 10 reasons: it handles huge data, improves accuracy, security, scalability, and avoids data redundancy! Have you seen your phone ask 'Replace old file or keep both as (1)' when downloading a duplicate PDF? Click the simulator buttons to see DBMS preventing wasted storage!",
+      4: "Now let's watch a live data journey like a tech breakdown video! When you search 'Riya' on your mobile screen, Step 1 captures your tap, Step 2 translates it into an SQL query, Step 3 looks up Riya's row on disk, and Step 4 renders her contact card on your screen in just 48 milliseconds!",
+      5: "A DBMS has 6 components connecting the Machine side and the Human side: Hardware like your phone's storage chip, Software like SQLite or MySQL, Data and Metadata—like the time and GPS location attached to your selfie—Access Language like SQL, Procedures like nightly backups, and People, also called 'live-ware'!",
+      6: "There are 4 main types of DBMS: Hierarchical uses an upside-down tree with a root and leaves, just like your phone's File Manager folders; Relational uses linked tables; NoSQL stores flexible key-value records like Riya, Arya, and Rakesh for social media feeds; and Object-Oriented stores objects with relationships like Sahil working in Technical and living in Delhi!",
+      7: "Let's zoom in on Relational DBMS! Why can't we put your phone's Call History in one giant single table? Because if Rahul calls you 50 times, repeating his phone number and city 50 times wastes huge memory! Instead, RDBMS splits data into 2 tables: Contacts with a unique Primary Key (C101), and Call_Logs with a Foreign Key (C101). Click any row in Call_Logs to watch how SQL joins them during a search!",
+      8: "Every database uses 4 core building blocks or objects: Tables store records in rows and columns; Forms give you a friendly screen like 'Add New Contact'; Queries ask questions to find data or fix errors; and Reports present clean formatted summaries like your weekly screen-time report!",
+      9: "Time for a quick recap quiz from our textbook! Test all 5 True or False questions right on screen—remembering that databases DO reduce redundancy, hierarchical trees are actually hard to search for specific items, and humans running the database are called 'live-ware'!"
+    };
+
+    function updatePresentation() {
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        if (slide) {
+          slide.classList.remove('slide-active');
+          slide.classList.add('hidden');
+        }
+      }
+
+      const current = document.getElementById(`slide-${currentSlide}`);
+      if (current) {
+        current.classList.remove('hidden');
+        current.classList.add('slide-active');
+      }
+
+      document.getElementById('slideIndicator').textContent = `Slide ${currentSlide} of ${totalSlides}`;
+      document.getElementById('prevBtn').disabled = (currentSlide === 1);
+      
+      const nextBtn = document.getElementById('nextBtn');
+      if (currentSlide === totalSlides) {
+        nextBtn.innerHTML = 'Completed <i class="ph-bold ph-check"></i>';
+      } else {
+        nextBtn.innerHTML = 'Next <i class="ph-bold ph-caret-right"></i>';
+      }
+
+      const dotsContainer = document.getElementById('dotsContainer');
+      dotsContainer.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.title = `Go to Slide ${i}`;
+        dot.className = (i === currentSlide) 
+          ? 'w-6 h-3 rounded-full bg-blue-500 transition-all' 
+          : 'w-3 h-3 rounded-full bg-slate-700 hover:bg-slate-500 transition-all';
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+
+      document.getElementById('speakerScriptText').textContent = scripts[currentSlide] || '';
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updatePresentation();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updatePresentation();
+      }
+    }
+
+    function goToSlide(n) {
+      if (n >= 1 && n <= totalSlides) {
+        currentSlide = n;
+        updatePresentation();
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    // Duplicate File Simulation (Slide 3)
+    function simulateDuplicate(type) {
+      const box = document.getElementById('duplicateResultBox');
+      box.classList.remove('hidden');
+      if (type === 'replace') {
+        box.innerHTML = '<span class="text-emerald-700">✓ Replaced Old File:</span> "Science_Notes.pdf" updated in place. Zero duplicate storage used!';
+      } else {
+        box.innerHTML = '<span class="text-blue-700">✓ Kept Both Safely:</span> Renamed new copy to <strong class="text-slate-900">"Science_Notes (1).pdf"</strong>!';
+      }
+    }
+
+    // Live Flow Simulation (Slide 4)
+    let isFlowRunning = false;
+    function runDataFetchSimulation() {
+      if (isFlowRunning) return;
+      isFlowRunning = true;
+
+      const c1 = document.getElementById('flow-card-1');
+      const c2 = document.getElementById('flow-card-2');
+      const c3 = document.getElementById('flow-card-3');
+      const c4 = document.getElementById('flow-card-4');
+      const led = document.getElementById('flowLedLight');
+      const status = document.getElementById('flowStatusLabel');
+      const timer = document.getElementById('flowTimer');
+
+      [c1, c2, c3, c4].forEach(c => c.className = "bg-white p-5 rounded-2xl border-4 border-transparent transition-all space-y-3");
+      led.className = "w-3 h-3 rounded-full bg-amber-400 animate-ping";
+
+      c1.classList.add('border-blue-600', 'scale-105');
+      status.textContent = 'Step 1: User searching "Riya" on Mobile Contacts UI...';
+      timer.textContent = '5 ms';
+
+      setTimeout(() => {
+        c1.classList.remove('border-blue-600', 'scale-105');
+        c2.classList.add('border-indigo-600', 'scale-105');
+        status.textContent = 'Step 2: App turns tap into SQL: SELECT * FROM Contacts WHERE name="Riya"...';
+        timer.textContent = '16 ms';
+      }, 800);
+
+      setTimeout(() => {
+        c2.classList.remove('border-indigo-600', 'scale-105');
+        c3.classList.add('border-amber-500', 'scale-105');
+        status.textContent = 'Step 3: DBMS engine scans storage tables & finds row #C101...';
+        timer.textContent = '34 ms';
+      }, 1600);
+
+      setTimeout(() => {
+        c3.classList.remove('border-amber-500', 'scale-105');
+        c4.classList.add('border-emerald-600', 'scale-105');
+        led.className = "w-3 h-3 rounded-full bg-emerald-400";
+        status.textContent = 'Step 4: Contact card displayed on mobile screen in 48ms!';
+        timer.textContent = '48 ms (Complete!)';
+        isFlowRunning = false;
+      }, 2400);
+    }
+
+    // Interactive Relational PK/FK Join Trace (Slide 7)
+    function traceRelationalJoin(rowId, contactId, name, phone, city, timeInfo) {
+      // Clear previous highlights
+      ['pk-row-C101', 'pk-row-C102'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('bg-amber-200', 'font-bold');
+      });
+      ['fk-row-1', 'fk-row-2', 'fk-row-3'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('bg-indigo-200', 'font-bold');
+      });
+
+      // Highlight clicked Foreign Key row and matching Primary Key row
+      const fkRow = document.getElementById(`fk-row-${rowId}`);
+      const pkRow = document.getElementById(`pk-row-${contactId}`);
+      if (fkRow) fkRow.classList.add('bg-indigo-200', 'font-bold');
+      if (pkRow) pkRow.classList.add('bg-amber-200', 'font-bold');
+
+      // Update live JOIN output card
+      document.getElementById('joinAvatar').textContent = name.charAt(0);
+      document.getElementById('joinSqlTrace').textContent =
+        `JOIN Trace: Call_Logs.contact_id (FK: ${contactId}) ➔ Contacts.contact_id (PK: ${contactId})`;
+      document.getElementById('joinUiOutput').textContent =
+        `📱 Mobile Call Screen: ${name} • ${phone} (${city}) • ${timeInfo}`;
+    }
+
+    // Slide 9 Textbook Quiz ("Do It Yourself 7A")
+    function answerQuiz(qNum, isCorrect, btn) {
+      if (answeredMap[qNum]) return;
+      answeredMap[qNum] = true;
+
+      const feedback = document.getElementById(`feedback-${qNum}`);
+      if (isCorrect) {
+        feedback.innerHTML = '<span class="text-emerald-700 font-extrabold">✓ Correct!</span>';
+        btn.classList.add('bg-emerald-600', 'text-white');
+        quizScore++;
+      } else {
+        feedback.innerHTML = '<span class="text-rose-700 font-extrabold">✗ Incorrect!</span>';
+        btn.classList.add('bg-rose-600', 'text-white');
+      }
+      document.getElementById('quizScoreLabel').textContent = `Score: ${quizScore} / 5`;
+    }
+
+    function toggleSpeakerNotes() {
+      const box = document.getElementById('teacherScriptBox');
+      box.classList.toggle('hidden');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    window.onload = function() {
+      updatePresentation();
+      // Highlight initial PK/FK pair on Slide 7
+      traceRelationalJoin(1, 'C101', 'Rahul', '98110-44210', 'Delhi', '10:00 AM (5m)');
+    };
+  </script>
+</body>
+</html>
